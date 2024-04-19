@@ -179,8 +179,9 @@ def main(args):
     
     '''
     TODO: Save the trained model
-    torch.save(model, "/opt/ml/model/")
     '''
+    torch.save(model.cpu().state_dict(),os.path.join(args.model_dir, "model.pth"))
+    
     
 
 if __name__=='__main__':
@@ -198,7 +199,7 @@ if __name__=='__main__':
         "--lr",
         type=float,
         default=0.001)
-    
+    parser.add_argument("--model-dir", type=str, default=os.environ["SM_MODEL_DIR"])
     
     args=parser.parse_args()
     
