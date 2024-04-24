@@ -1,10 +1,6 @@
-#TODO: Import your dependencies.
-#For instance, below are some dependencies you might need if you are using Pytorch
 import os
 import logging
 import sys
-
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -15,10 +11,6 @@ import torchvision.models as models
 import torchvision.transforms as transforms
 
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logger.addHandler(logging.StreamHandler(sys.stdout))
-
         
 def net():
 
@@ -26,8 +18,11 @@ def net():
     for param in model.parameters():
         param.requires_grad = False
         
-    inf = model.fc.in_features
-    model.fc = nn.Linear(inf, 133)
+    features = model.fc.in_features
+    model.fc = nn.Sequential(
+                   nn.Linear(features, 256),
+                   nn.ReLU(inplace=True),
+                   nn.Linear(256, 272))
     
     return model
     
