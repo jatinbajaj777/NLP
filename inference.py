@@ -21,10 +21,7 @@ logger.addHandler(logging.StreamHandler(sys.stdout))
 
         
 def net():
-    '''
-    TODO: Complete this function that initializes your model
-          Remember to use a pretrained model
-    '''
+
     model = models.resnet50(pretrained=True)
     for param in model.parameters():
         param.requires_grad = False
@@ -42,3 +39,9 @@ def model_fn(model_dir):
     with open(os.path.join(model_dir, 'model.pth'), 'rb') as f:
         model.load_state_dict(torch.load(f))
     return model
+
+def predict_fn(input_object, model):
+
+    with torch.no_grad():
+        prediction = model(input_object)
+    return prediction
